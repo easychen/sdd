@@ -1,0 +1,102 @@
+{
+    "version": 1, // 规范版本，整型
+    "url":"https://www.agedm.org/detail/20240167", // 目标 URL 
+    "title":"重生大小姐正在攻略龙帝殿下", // 目标网页标题
+    "favicon": "https://www.agedm.org/favicon.ico" , // 网页的 favicon，用于优化显示
+    "user_agent":"", // 指定 user agent，兼容某些特殊网站
+    "viewport":{
+        "width":0,
+        "height":0
+    }, // 指定可视区域大小，用于确保响应式布局下，dom结构是一致的
+    "suggest_fetch_method": "raw", // 枚举：raw,jsdom,headless,real_tab,
+    "data_type": "list",
+    "data_list":{
+        "iframe":"",
+        "selector":{
+            "css":"div.tab-pane:nth-of-type(1) > ul",
+            "xpath":"",
+            "jspath":"",
+            "jsonate":""
+        },
+        "un_selectors":[], // 忽略选择器
+        "click_selectors":[] // 点击选择器
+    },
+    "data_list_elements":{
+        "unique_id":{
+            "type":"var",
+            "value":"list.link"
+        },
+        "link":{
+            "type":"attr",
+            "value":"href",
+            "is_related_seletor":true,
+            "selector":
+            {
+                "css": "li a"
+            },
+            "un_selectors":[] // 忽略选择器
+        },
+        "text":{
+            "type":"text",
+            "value":"",
+            "is_related_seletor":true,
+            "selector":
+            {
+                "css": "li a"
+            }
+        },
+        "image":{
+            "type":"image",
+            "value":"",
+            "is_related_seletor":false,
+            "selector":
+            {
+                "css": "div.video_detail_cover > img"
+            }
+        },
+        // "desp":{
+        //     "type":"text",
+        //     "value":"",
+        //     "is_related_seletor":true,
+        //     "selector":
+        //     {
+        //         "css": ".video_detail_desc"
+        //     }
+        // },
+        "desp":{
+            "type":"var",
+            "value":"meta.desp"
+        }
+    }, // data 
+    "meta": // 页面上的元信息
+    {
+        "desp":{
+            "type":"text",
+            "value":"",
+            "selector":
+            {
+                "css": ".video_detail_desc"
+            }
+        }
+    },
+    "output":
+    {
+        // 使用 JSONata语法，对 link 和 meta 两个对象数据进行处理
+        "data":
+        {
+            "title":"$list.title",
+            "desp":"$list.desp",
+            "link":"$list.link",
+            "unique_id":"$list.unique_id"
+        },
+        "type":"all" // all,changed
+    },
+    "watch":
+    {
+        // 使用 JSONata语法，对 link 和 meta 两个对象数据进行处理
+        "expression": "$list.unique_id",
+        "value": true, // 
+        "type": "list" // list or element，会比较整个list中是否有新元素
+        
+    }
+}
