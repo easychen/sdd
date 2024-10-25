@@ -9,7 +9,8 @@
         "height":0
     }, // 指定可视区域大小，用于确保响应式布局下，dom结构是一致的
     "suggest_fetch_method": "raw", // 枚举：raw,jsdom,headless,real_tab,
-    "data_type": "list",
+    "data_format": "html", // html, json, xml2json
+    "data_type": "list", // list or element
     "data_list":{
         "iframe":"",
         "selector":{
@@ -22,9 +23,13 @@
         "click_selectors":[] // 点击选择器
     },
     "data_list_elements":{
-        "unique_id":{
+        "guid":{
             "type":"var",
-            "value":"list.link"
+            "value":"list.link",
+            "translate":{
+                "from": "",
+                "to": ""
+            }
         },
         "link":{
             "type":"attr",
@@ -79,6 +84,23 @@
             }
         }
     },
+    "pagination":{
+        "enabled": true,
+        "list_selector": {
+            "css": ".pagination a.next",
+            "xpath": "//a[@class='next']"
+        },
+        "max_page_selector": {
+            "css": ".pagination a.next",
+            "xpath": "//a[@class='next']"
+        },
+        "url_transalte":
+        {
+            "from":"",
+            "to":"",
+            "var":"{{page}}"
+        }
+    },
     "output":
     {
         // 使用 JSONata语法，对 link 和 meta 两个对象数据进行处理
@@ -87,14 +109,34 @@
             "title":"$list.title",
             "desp":"$list.desp",
             "link":"$list.link",
-            "unique_id":"$list.unique_id"
+            "guid":"$list.guid"
         },
         "type":"all" // all,changed
     },
-    "watch":
+    "rss":{
+        "channel": {
+                "title": "重生大小姐正在攻略龙帝殿下", // 频道标题
+                "link": "https://www.agedm.org/detail/20240167", // 频道链接
+                "description": "$meta.desp", // 频道描述
+                "language": "zh-cn",
+                "pubDate": "$now", // 使用当前时间
+                "lastBuildDate": "$now",
+                "generator": "WebExtractor",
+                "docs": "https://www.rssboard.org/rss-specification"
+            },
+            "items": {
+                // 使用 JSONata 表达式将 list 数据映射到 RSS 项
+                "title": "$list.text", 
+                "link": "$list.link",
+                "guid": "$list.guid",
+                "description": "$list.desp",
+                "pubDate": "$now" // 如果页面中有日期信息,可以替换为实际日期
+            }    
+    },
+    "watch": // 推送触发设置
     {
         // 使用 JSONata语法，对 link 和 meta 两个对象数据进行处理
-        "expression": "$list.unique_id",
+        "expression": "$list.guid",
         "value": true, // 
         "type": "list" // list or element，会比较整个list中是否有新元素
         
